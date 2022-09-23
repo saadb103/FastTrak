@@ -11,7 +11,7 @@
     "FastTrak.Server": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7182;http://localhost:5192",
+      "applicationUrl": "http://localhost:10952",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

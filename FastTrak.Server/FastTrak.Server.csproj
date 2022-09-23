@@ -11,4 +11,31 @@
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="System.IdentityModel.Tokens.Jwt" />
+    <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
+    <None Remove="Microsoft.EntityFrameworkCore.Design" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Microsoft.AspNetCore.Components.Authorization" />
+    <None Remove="Blazored.LocalStorage" />
+    <None Remove="Syncfusion.Blazor.Navigations" />
+    <None Remove="Syncfusion.Blazor.Themes" />
+    <None Remove="Syncfusion.Blazor.Calendars" />
+    <None Remove="Syncfusion.Blazor.Grid" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="20.2.0.50" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.2.0.50" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="20.2.0.50" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="20.2.0.50" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,22 @@
+﻿@page "/logout"
+
+@using Blazored.LocalStorage
+@using FastTrak.Server.Services.IServices
+@inject IUserService _userService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
+
+<PageTitle>Logout</PageTitle>
+
+<AuthorizeView>
+    <Authorized>You are still logged in</Authorized>
+    <NotAuthorized>You are now logged out</NotAuthorized>
+</AuthorizeView>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await LocalStorage.RemoveItemAsync("token");
+        await AuthStateProvider.GetAuthenticationStateAsync();
+    }
+}

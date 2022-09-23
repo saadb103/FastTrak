@@ -1,9 +1,11 @@
 ﻿@page "/fetchdata"
 
-<PageTitle>Weather forecast</PageTitle>
+@using Microsoft.AspNetCore.Components.Authorization
 
 @using FastTrak.Server.Data
 @inject WeatherForecastService ForecastService
+
+<PageTitle>Weather forecast</PageTitle>
 
 <h1>Weather forecast</h1>
 

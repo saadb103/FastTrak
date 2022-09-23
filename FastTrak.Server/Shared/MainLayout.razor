@@ -1,4 +1,9 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager UrlHelper;
+@inject IJSRuntime JSRuntime;
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.Buttons;
+@using Microsoft.AspNetCore.WebUtilities;
 
 <PageTitle>FastTrak.Server</PageTitle>
 
@@ -6,15 +11,73 @@
     <div class="sidebar">
         <NavMenu />
     </div>
-
-    <main>
+    <div class="main">
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <div class="theme-switcher">
+                @*Theme switcher*@
+                <SfDropDownList TItem="ThemeDetails" TValue="string" @bind-Value="themeName" DataSource="@Themes">
+                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                    <DropDownListEvents TItem="ThemeDetails" TValue="string" ValueChange="OnThemeChange"></DropDownListEvents>
+                </SfDropDownList>
+            </div>
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">Home</a>
+            <AuthorizeView>
+                <Authorized>
+                    <a href="https://docs.microsoft.com/aspnet/" target="_blank">Start</a>
+                    @if (context.User.IsInRole("Corporate"))
+                    {
+                        <a href="/corporatearea">Corporate</a>
+                    }
+                </Authorized>
+            </AuthorizeView>
         </div>
 
-        <article class="content px-4">
+        <div class="content px-4">
             @Body
-        </article>
-    </main>
+        </div>
+    </div>
 </div>
+
+@code {
+    private string themeName;
+
+    public class ThemeDetails
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
+    private List<ThemeDetails> Themes = new List<ThemeDetails>() {
+        new ThemeDetails(){ ID = "material", Text = "Material" },
+        new ThemeDetails(){ ID = "bootstrap", Text = "Bootstrap" },
+        new ThemeDetails(){ ID = "fabric", Text = "Fabric" },
+        new ThemeDetails(){ ID = "bootstrap4", Text = "Bootstrap 4" },
+        new ThemeDetails(){ ID = "tailwind", Text = "TailWind"},
+        new ThemeDetails(){ ID = "tailwind-dark", Text = "TailWind Dark" },
+        new ThemeDetails(){ ID = "material-dark", Text = "Material Dark" },
+        new ThemeDetails(){ ID = "bootstrap-dark", Text = "Bootstrap Dark" },
+        new ThemeDetails(){ ID = "fabric-dark", Text = "Fabric Dark" },
+        new ThemeDetails(){ ID = "highcontrast", Text = "High Contrast" }
+    };
+
+
+    public void OnThemeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ThemeDetails> args)
+    {
+        JSRuntime.InvokeAsync<object>("setTheme", args.ItemData.ID);
+    }
+
+    private string GetThemeName()
+    {
+        var uri = UrlHelper.ToAbsoluteUri(UrlHelper.Uri);
+        QueryHelpers.ParseQuery(uri.Query).TryGetValue("theme", out var theme);
+        return theme.Count > 0 ? theme.First() : "bootstrap4";
+    }
+
+    protected override void OnInitialized()
+    {
+        var theme = GetThemeName();
+        themeName = theme.Contains("bootstrap4") ? "bootstrap4" : theme;
+    }
+
+}
 

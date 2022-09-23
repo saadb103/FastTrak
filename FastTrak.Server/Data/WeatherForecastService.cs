@@ -1,5 +1,4 @@
 ﻿namespace FastTrak.Server.Data;
-
 public class WeatherForecastService
 {
     private static readonly string[] Summaries = new[]

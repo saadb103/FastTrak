@@ -1,0 +1,42 @@
+﻿@page "/register"
+
+@using FastTrak.Shared.DTOs
+@using Blazored.LocalStorage
+@using FastTrak.Server.Services.IServices
+@inject IUserService _userService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILocalStorageService LocalStorage
+
+<h3>Register</h3>
+
+<EditForm Model="request" OnSubmit="HandleRegister">
+    <label for="username">Name</label>
+    <InputText id="username" @bind-Value="request.Username" />
+    <label for="password">Password</label>
+    <InputText id="password" @bind-Value="request.Password" type="password" />
+    <label for="role">Select user type</label>
+    <InputSelect id="role" @bind-Value="request.UserRole">
+        <option value="Customer">Customer</option>
+        <option value="Corporate">Corporate</option>
+    </InputSelect>
+    <button type="submit" class="btn btn-primary">Do it!</button>
+</EditForm>
+
+@if(response.isSuccessful)
+{
+        <p>User successfully created</p>
+} else
+{
+        <p>@response.Errors</p>
+}
+
+@code {
+    RegistrationRequestDTO request = new RegistrationRequestDTO();
+    RegistrationResponseDTO response = new RegistrationResponseDTO();
+
+    async Task HandleRegister()
+    {
+        response = await _userService.Register(request);
+    }
+}
+
